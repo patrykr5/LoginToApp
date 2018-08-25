@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,13 +25,41 @@ namespace LoginToApp
             InitializeComponent();
         }
 
+        public string PasswordAuth;
+        public string LoginFromInput;
+
+        private void Authentication()
+        {
+            string connectionString = @"Data Source=";
+            using (var conn = new SqlConnection(connectionString))
+            {
+                var sql = "SELECT Password FROM Loginapp_users where Login = @Login";
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Login", LoginFromInput);
+                    conn.Open();
+                    PasswordAuth = (string)cmd.ExecuteScalar();
+                }
+                conn.Close();
+            }
+        }
+
         private void btn_Login_Click(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(tb_Login.Text) || !String.IsNullOrWhiteSpace(pb_Password.Password))
+            if (!String.IsNullOrWhiteSpace(tb_Login.Text) && !String.IsNullOrWhiteSpace(pb_Password.Password))
             {
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-                this.Close();
+                LoginFromInput = tb_Login.Text;
+                Authentication();
+                if (PasswordAuth == pb_Password.Password.ToString())
+                {
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid login/password!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
 
             }
             else
