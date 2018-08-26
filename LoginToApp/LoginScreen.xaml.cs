@@ -30,10 +30,10 @@ namespace LoginToApp
 
         private void Authentication()
         {
-            string connectionString = @"Data Source=MAINPCV;Initial Catalog=LoginApp;User ID=app_la;Password=QdePGFdDh5";
+            string connectionString = @"Data Source="; //Data Source=%server/local_name_pc%;Initial Catalog=%DB name%;User ID=%login%;Password=%password%
             using (var conn = new SqlConnection(connectionString))
             {
-                var sql = "SELECT Password FROM Loginapp_users where Login = @Login";
+                var sql = "EXEC usp_Auth @Login";
                 using (var cmd = new SqlCommand(sql, conn))
                 {
                     cmd.Parameters.AddWithValue("@Login", LoginFromInput);
