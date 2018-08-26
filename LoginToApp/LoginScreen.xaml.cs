@@ -30,7 +30,7 @@ namespace LoginToApp
 
         private void Authentication()
         {
-            string connectionString = @"Data Source=";
+            string connectionString = @"Data Source=MAINPCV;Initial Catalog=LoginApp;User ID=app_la;Password=QdePGFdDh5";
             using (var conn = new SqlConnection(connectionString))
             {
                 var sql = "SELECT Password FROM Loginapp_users where Login = @Login";
@@ -44,13 +44,32 @@ namespace LoginToApp
             }
         }
 
+        public string CreateMD5(string input)
+        {
+            // Use input string to calculate MD5 hash
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString().ToLower();
+            }
+        }
+
         private void btn_Login_Click(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrWhiteSpace(tb_Login.Text) && !String.IsNullOrWhiteSpace(pb_Password.Password))
-            {
+            {                
                 LoginFromInput = tb_Login.Text;
                 Authentication();
-                if (PasswordAuth == pb_Password.Password.ToString())
+                string passwordInput = CreateMD5(pb_Password.Password.ToString());
+                if (PasswordAuth == passwordInput)
                 {
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
