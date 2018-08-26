@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LoginToApp"
         mc:Ignorable="d"
-        Title="LoginScreen" Height="450" Width="800" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+        Title="LoginScreen" Height="450" Width="800" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Grid>
         <TextBox x:Name="tb_Login" HorizontalAlignment="Left" Height="23" Margin="367,105,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="lb_Login" Content="Login:" HorizontalAlignment="Left" Margin="283,105,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.686,1.679"/>

@@ -22,7 +22,12 @@ namespace LoginToApp
     {
         public LoginScreen()
         {
-            InitializeComponent();
+            InitializeComponent();            
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            tb_Login.MaxLength = 15;
         }
 
         public string PasswordAuth;
@@ -30,7 +35,7 @@ namespace LoginToApp
 
         private void Authentication()
         {
-            string connectionString = @"Data Source="; //Data Source=%server/local_name_pc%;Initial Catalog=%DB name%;User ID=%login%;Password=%password%
+            string connectionString = @"Data Source=MAINPCV;Initial Catalog=LoginApp;User ID=app_la;Password=QdePGFdDh5"; //Data Source=%server/local_name_pc%;Initial Catalog=%DB name%;User ID=%login%;Password=%password%
             using (var conn = new SqlConnection(connectionString))
             {
                 var sql = "EXEC usp_Auth @Login";

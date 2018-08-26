@@ -34,7 +34,7 @@ COMMIT;
 
 CREATE TABLE LoginApp_users_login_history (
   ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-  Login VARCHAR(10) NOT NULL,
+  Login VARCHAR(15) NOT NULL,
   Login_Time DATETIME2 DEFAULT GETDATE()
 )
 BEGIN TRAN;
@@ -42,8 +42,8 @@ COMMIT;
 
 ALTER PROCEDURE usp_Auth @Login varchar(15)
   AS
+  INSERT INTO LoginApp_users_login_history (Login) VALUES (@Login);
   SELECT Password
     FROM Loginapp_users WHERE Login = @Login;
-  INSERT INTO LoginApp_users_login_history (Login) VALUES (@Login);
 BEGIN TRANSACTION;
 COMMIT;
